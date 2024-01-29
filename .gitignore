@@ -1,0 +1,25 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Pastas
+node_modules/
+dist/
+
+# Arquivos temporários
+*.tmp
+*.swp
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Arquivos gerados por IDEs/editores
+.vscode/
+.idea/
+
+# Arquivos de dependências
+package-lock.json
+yarn.lock

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <title>Listagem de itens</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="/">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="/">Home</a>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Produtos
+                      </a>
+                      <ul class="dropdown-menu">
+                          <li><a href="/listar"" class=" dropdown-item">Listar</a></li>
+                          <li><a href="/estoque_min" class="dropdown-item">Estoque minimo</a></li>
+                          <li><a href="/maior_preco" class="dropdown-item">Maior Preco</a></li>
+                          <li><a href="/menor_preco" class="dropdown-item">Menor Preço</a></li>
+                          <li><a href="/cadastrar_categoria" class="dropdown-item">Cadastrar Categoria</a></li>
+                      </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Clientes
+                      </a>
+                      <ul class="dropdown-menu">
+                          <li><a href="/login" class="dropdown-item">Logar</a></li>
+                          <li><a href="/listar_c" class="dropdown-item">Listar</a></li>
+                          <li><a href="/cadastrar_cliente" class="dropdown-item">Cadastrar</a></li>
+                          <li><a href="/cadastrar_p" class="dropdown-item">Cadastrar Produto</a></li>
+                      </ul>
+                  </li>
+              </div>
+          </div>
+      </div>
+  </nav>
+
+
+  <div class="container text-center">
+    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+
+
+      <% rows.map(item=> { %>
+        <div class="row justify-content-evenly my-3">
+
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= item.id %>: <%= item.nome %>
+              </h5>
+              <p class="card-text">
+                <%= item.endereco %>
+              </p>
+            </div>
+            <ul class="list-group list-group-flush">
+             
+              <li class="list-group-item">CPF: <%= item.cpf %>
+              </li>
+              <li class="list-group-item">
+
+
+                <form action="/atualizar_cliente" method="get">
+                  <input type="hidden" name="id" value="<%= item.id %>">
+                  <button type="submit" class="btn btn-primary mt-2">Editar</button>
+                </form>
+
+
+                <!-- Formulário para o botão de delete -->
+                <form action="/delete_cliente" method="post">
+                  <!-- Adicione um campo oculto para o ID do produto -->
+                  <input type="hidden" name="id" value="<%= item.id %>">
+
+                  <!-- Botão de delete -->
+                  <button type="submit" class="btn btn-danger mt-2">Excluir</button>
+                </form>
+
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <% }); %>
+
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

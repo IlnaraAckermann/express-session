@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <!-- Adicione os links para os estilos do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    
+
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Produtos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/listar"" class=" dropdown-item">Listar</a></li>
+                        <li><a href="/estoque_min" class="dropdown-item">Estoque minimo</a></li>
+                        <li><a href="/maior_preco" class="dropdown-item">Maior Preco</a></li>
+                        <li><a href="/menor_preco" class="dropdown-item">Menor Preço</a></li>
+                        <li><a href="/cadastrar_categoria" class="dropdown-item">Cadastrar Categoria</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Clientes
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/login" class="dropdown-item">Logar</a></li>
+                        <li><a href="/listar_c" class="dropdown-item">Listar</a></li>
+                        <li><a href="/cadastrar_cliente" class="dropdown-item">Cadastrar</a></li>
+                        <li><a href="/cadastrar_p" class="dropdown-item">Cadastrar Produto</a></li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+<div class="container mt-5">
+    <h2>Cadastro de Clientes</h2>
+    <form action="/atualizar_cliente" method="post" >
+        <!-- Campos do formulário -->
+        <input type="hidden" name="id" id='id' value="<%= item.id %>">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" value="<%=item.nome%>"required>
+        </div>
+
+        <div class="mb-3">
+            <label for="nome" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="senha" name="senha" value="<%=item.senha%>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="estoque" class="form-label">CPF</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" value="<%=item.cpf%>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Endereço</label>
+            <textarea class="form-control" id="endereco" name="endereco" rows="3"><%=item.endereco%></textarea>
+        </div>
+        <!-- Botão de envio -->
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+    </form>
+</div>
+
+<!-- Adicione os scripts do Bootstrap no final do corpo do HTML para melhor desempenho -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+</body>
+</html>
