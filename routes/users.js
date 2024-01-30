@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 
+const{ checkAuth } = require('./../middlewares/auth')
+
 const { 
     selectClientes,
     cadastrarCliente, 
@@ -10,11 +12,11 @@ const {
     deleteClienteById,
     userLogged,
     userLogin
-  } = require('../controller/clientes')
+  } = require('../controller/Clientes')
   
 
-router.get('/atualizar_cliente', selectClientToUpdate) 
-router.post('/atualizar_cliente', atualizarCliente)
+router.get('/atualizar_cliente',checkAuth, selectClientToUpdate) 
+router.post('/atualizar_cliente',checkAuth, atualizarCliente)
 
 router.post("/cadastrar_cliente", cadastrarCliente)
 
@@ -24,7 +26,7 @@ router.get("/cadastrar_cliente", (req, res) => {
 
 
 router.get("/listar_c", selectClientes)
-router.post("/delete_cliente", deleteClienteById)
+router.post("/delete_cliente",checkAuth, deleteClienteById)
 
 
 

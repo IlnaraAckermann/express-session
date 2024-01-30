@@ -36,11 +36,11 @@ async function atualizarCliente(req, res) {
 	console.log("to na funcao");
 	console.log(registro);
 	databaseInstance.db.run(
-		"UPDATE clientes SET nome=?, senha=?, cpf=?, endereco=? WHERE id=?",
+		"UPDATE clientes SET nome=?, senha=?, email=?, endereco=? WHERE id=?",
 		[
 			registro.nome,
 			registro.senha,
-			registro.cpf,
+			registro.email,
 			registro.endereco,
 			registro.id,
 		],
@@ -82,50 +82,49 @@ async function selectClientToUpdate(req, res) {
 	);
 }
 
-async function userLogin (email, senha) {
+async function userLogin(email, senha) {
 	try {
-	   sqlConsultaCad = 'SELECT ID, Nome FROM clientes WHERE email = ? AND senha = ?';   
-	   let verificador;
-	   const login = await new Promise((resolve, reject) => { databaseInstance.db.get(sqlConsultaCad, [email, senha], (err, row) => {
-		   if (err) {
-			   reject(err);
-		   } else {
-			   verificador = row;
-			   resolve(row);
-		   }
-	   });
-	   });
-	   
-	   if(verificador)  return true;
+		sqlConsultaCad =
+			"SELECT ID, Nome FROM clientes WHERE email = ? AND senha = ?";
+		let verificador;
+		const login = await new Promise((resolve, reject) => {
+			databaseInstance.db.get(sqlConsultaCad, [email, senha], (err, row) => {
+				if (err) {
+					reject(err);
+				} else {
+					verificador = row;
+					resolve(row);
+				}
+			});
+		});
+		console.log(login.id);
+		if (verificador) return true;
 
-	   return false;
-   } catch (err) {
-	   console.error(err);
-	   return false;
-   }
+		return false;
+	} catch (err) {
+		console.error(err);
+		return false;
+	}
 }
 
-
-
-async function userLogged (req, res, next) {
-    const {email, senha} = req.body
+async function userLogged(req, res, next) {
+	const { email, senha } = req.body;
 	console.log(email);
 	console.log(senha);
-    
-    const login = await userLogin(email, senha);
-    if(login){        
-    req.session.usuario = {
-        email: email,
-        senha: senha
-    };
-    res.cookie('isLogged', 'true', { maxAge: 60000, httpOnly: true });
-	req.session.user = { username: 'email' };
-    res.redirect('/');
-    } else{
-        res.redirect('/login');
-    }
-};
 
+	const login = await userLogin(email, senha);
+	if (login) {
+		req.session.usuario = {
+			email: email,
+			senha: senha,
+			id: login
+		};
+		res.cookie("isLogged", "true", { maxAge: 60000, httpOnly: true });
+		res.redirect("/");
+	} else {
+		res.redirect("/login");
+	}
+}
 
 module.exports = {
 	selectClientes,
@@ -134,5 +133,5 @@ module.exports = {
 	deleteClienteById,
 	selectClientToUpdate,
 	userLogged,
-	userLogin
+	userLogin,
 };
