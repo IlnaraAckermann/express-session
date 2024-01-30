@@ -33,7 +33,6 @@ async function cadastrarCliente(req, res) {
 
 async function atualizarCliente(req, res) {
 	let registro = req.body;
-	console.log("to na funcao");
 	console.log(registro);
 	databaseInstance.db.run(
 		"UPDATE clientes SET nome=?, senha=?, email=?, endereco=? WHERE id=?",
@@ -46,7 +45,6 @@ async function atualizarCliente(req, res) {
 		],
 		(err) => {
 			if (err) {
-				console.log("deu erro");
 				res.status(500).send("Erro ao atualizar o cliente no banco de dados.");
 			} else {
 				console.log("deu certo");
