@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const{ checkAuth } = require('./../middlewares/auth')
 
 const {
     selectProdutos,
@@ -22,7 +23,7 @@ router.post("/delete", deleteById)
 router.post("/atualizar", atualizar)
 router.get('/atualiza_produtos', selectProdutoById) ;
 
-router.get("/cadastrar_p", (req, res) => {
+router.get("/cadastrar_p", checkAuth, (req, res) => {
   res.render('cadastrar_produtos')
 })
 

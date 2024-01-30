@@ -119,6 +119,7 @@ async function userLogged (req, res, next) {
         senha: senha
     };
     res.cookie('isLogged', 'true', { maxAge: 60000, httpOnly: true });
+	req.session.user = { username: 'email' };
     res.redirect('/');
     } else{
         res.redirect('/login');

@@ -1,7 +1,6 @@
-
 var createError = require("http-errors");
-var express = require('express');
-const session = require('express-session');
+var express = require("express");
+const session = require("express-session");
 var router = express.Router();
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -9,14 +8,16 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var app = express();
 
-require('dotenv').config();
-
+require("dotenv").config();
 
 //Configuração Express-session
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-   }));
-   
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: true,
+	})
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
