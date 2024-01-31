@@ -6,7 +6,8 @@ async function selectClientes(req, res) {
 		if (err) {
 			throw err;
 		}
-		res.render("listar_clientes", { rows });
+		let usuario = req.session.usuario ? req.session.usuario.id : 'a';
+		res.render("listar_clientes", { rows, usuario });
 	});
 }
 
