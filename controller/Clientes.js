@@ -96,7 +96,7 @@ async function userLogin(email, senha) {
 			});
 		});
 		console.log(login.id);
-		if (verificador) return true;
+		if (verificador) return login.id;
 
 		return false;
 	} catch (err) {
@@ -118,6 +118,8 @@ async function userLogged(req, res, next) {
 			id: login
 		};
 		res.cookie("isLogged", "true", { maxAge: 60000, httpOnly: true });
+		console.log("session");
+		console.log(req.session.usuario);
 		res.redirect("/");
 	} else {
 		res.redirect("/login");
