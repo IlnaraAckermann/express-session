@@ -166,34 +166,38 @@ async function inserirProduto(req, res) {
 
 async function atualizar(req, res) {
 	let registro = req.body;
-	console.log(registro);
-	databaseInstance.db.run(
-		"UPDATE produtos SET nome=?, estoque=?, id_categoria=?, id_usuario=?, preco=?, descricao=?, url_da_imagem=? WHERE id=?",
-		[
-			registro.nome,
-			registro.estoque,
-			registro.categoria,
-            registro.usuario,
-			registro.preco,
-			registro.descricao,
-			registro.url_da_imagem,
-			registro.id,
-		],
-		(err) => {
-			if (err) {
-                res.status(500).send("Erro ao atualizar o produto no banco de dados.");
-            } else {
-                res.redirect("/");
-            }
-		}
 	
-	);
-}
+	if (req.session.usuario.id !== Number(registro.usuario) ) return res.status(401).send("Ação não autorizada.");
+	
+		databaseInstance.db.run(
+			"UPDATE produtos SET nome=?, estoque=?, id_categoria=?, id_usuario=?, preco=?, descricao=?, url_da_imagem=? WHERE id=?",
+			[
+				registro.nome,
+				registro.estoque,
+				registro.categoria,
+				registro.usuario,
+				registro.preco,
+				registro.descricao,
+				registro.url_da_imagem,
+				registro.id,
+			],
+			(err) => {
+				if (err) {
+					res.status(500).send("Erro ao atualizar o produto no banco de dados.");
+				} else {
+					res.redirect("/");
+				}
+			}
+		
+		);
+	}
+
 
 async function deleteById(req,res) {
 	let id = req.body.id
 	const parseId = parseInt(id)
 	if(isNaN(parseId)) return res.status(404).send("Id inválido")
+	if (req.session.usuario.id !== Number(registro.usuario) ) return res.status(401).send("Ação não autorizada.");
 	databaseInstance.db.get('DELETE FROM produtos WHERE id=?', [parseId], (err) => {
 		if (err) {
 			res.status(500).send("Erro ao deletar o produto no banco de dados.");
