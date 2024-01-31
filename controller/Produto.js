@@ -197,7 +197,7 @@ async function deleteById(req,res) {
 	let id = req.body.id
 	const parseId = parseInt(id)
 	if(isNaN(parseId)) return res.status(404).send("Id inválido")
-	if (req.session.usuario.id !== Number(registro.usuario) ) return res.status(401).send("Ação não autorizada.");
+	if (req.session.usuario.id !== Number(id) ) return res.status(401).send("Ação não autorizada.");
 	databaseInstance.db.get('DELETE FROM produtos WHERE id=?', [parseId], (err) => {
 		if (err) {
 			res.status(500).send("Erro ao deletar o produto no banco de dados.");
