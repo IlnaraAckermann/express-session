@@ -12,13 +12,14 @@ async function selectClientes(req, res) {
 
 async function cadastrarCliente(req, res) {
 	let registro = req.body;
+	console.log(registro);
 	databaseInstance.db.run(
-		"INSERT INTO clientes (id, nome, senha, cpf, endereco) VALUES (?, ?, ?, ?, ?)",
+		"INSERT INTO clientes (id, nome, senha, email, endereco) VALUES ( ?, ?, ?, ?)",
 		[
 			registro.id,
 			registro.nome,
 			registro.senha,
-			registro.cpf,
+			registro.email,
 			registro.endereco,
 		],
 		(err) => {
@@ -107,8 +108,6 @@ async function userLogin(email, senha) {
 
 async function userLogged(req, res, next) {
 	const { email, senha } = req.body;
-	console.log(email);
-	console.log(senha);
 
 	const login = await userLogin(email, senha);
 	if (login) {
@@ -117,9 +116,6 @@ async function userLogged(req, res, next) {
 			senha: senha,
 			id: login
 		};
-		res.cookie("isLogged", "true", { maxAge: 60000, httpOnly: true });
-		console.log("session");
-		console.log(req.session.usuario);
 		res.redirect("/");
 	} else {
 		res.redirect("/login");

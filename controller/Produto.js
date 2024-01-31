@@ -87,14 +87,13 @@ async function ordernarMaiorPreco(req, res) {
 
 async function inserirProduto(req, res) {
 	let registro = req.body;
-	console.log(registro);
 	databaseInstance.db.run(
 		"INSERT INTO produtos (nome, estoque, id_categoria, id_usuario, preco, descricao, url_da_imagem) VALUES (?, ?, ?, ?, ?, ?, ?)",
         [
             registro.nome,
             registro.estoque,
             registro.categoria,
-            registro.usuario,
+            req.session.usuario.id,
             registro.preco,
             registro.descricao,
             registro.url_da_imagem,

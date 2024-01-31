@@ -2,7 +2,6 @@
 
 const checkAuth = (req, res, next) => {
 	
-	console.log(req.session.usuario);
 	if (req.session && req.session.usuario) {
 		// O usuário está autenticado
 		next();
