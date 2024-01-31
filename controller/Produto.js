@@ -2,15 +2,21 @@ const DatabaseSingleton = require("../config/ConfigDB");
 const databaseInstance = new DatabaseSingleton();
 
 async function selectProdutos(req, res) {
-	databaseInstance.db.all(`SELECT produtos.id,
+	databaseInstance.db.all(`SELECT 
+		produtos.id,
 		produtos.nome,
 		produtos.estoque,
 		categorias.nome AS categoria,
+		clientes.nome as usuario,
 		produtos.preco,
 		produtos.descricao,
 		produtos.url_da_imagem
-	FROM produtos
-	JOIN categorias ON produtos.id_categoria = categorias.id;`, (err, rows) => {
+	FROM 
+		produtos
+	JOIN 
+		categorias ON produtos.id_categoria = categorias.id
+	JOIN 
+		clientes ON produtos.id_usuario = clientes.id;`, (err, rows) => {
 		if (err) {
 			throw err;
 		}
@@ -18,17 +24,52 @@ async function selectProdutos(req, res) {
 	});
 }
 
+
+async function selectMeusProdutos(req, res) {
+	databaseInstance.db.all(`SELECT 
+		produtos.id,
+		produtos.nome,
+		produtos.estoque,
+		categorias.nome AS categoria,
+		clientes.nome as usuario,
+		produtos.preco,
+		produtos.descricao,
+		produtos.url_da_imagem
+	FROM 
+		produtos
+	JOIN 
+		categorias ON produtos.id_categoria = categorias.id
+	JOIN 
+		clientes ON produtos.id_usuario = clientes.id
+	WHERE
+		produtos.id_usuario =?;`,
+		[req.session.usuario.id], (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.render('listar_meus_produtos', {rows})
+	});
+}
+
+
+
 async function selectProdutoEstoqueMin(req, res) {
 	databaseInstance.db.all(
-		`SELECT produtos.id,
-				produtos.nome,
-				produtos.estoque,
-				categorias.nome AS categoria,
-				produtos.preco,
-				produtos.descricao,
-				produtos.url_da_imagem
- 		FROM produtos
- 		JOIN categorias ON produtos.id_categoria = categorias.id 
+		`SELECT 
+			produtos.id,
+			produtos.nome,
+			produtos.estoque,
+			categorias.nome AS categoria,
+			clientes.nome as usuario,
+			produtos.preco,
+			produtos.descricao,
+			produtos.url_da_imagem
+		FROM 
+			produtos
+		JOIN 
+			categorias ON produtos.id_categoria = categorias.id
+		JOIN 
+			clientes ON produtos.id_usuario = clientes.id
 		WHERE estoque >= 1
  		ORDER BY produtos.preco ASC;`,
 		[],
@@ -43,15 +84,21 @@ async function selectProdutoEstoqueMin(req, res) {
 
 async function ordernarMenorPreco(req, res) {
 	databaseInstance.db.all(
-		`SELECT produtos.id,
-				produtos.nome,
-				produtos.estoque,
-				categorias.nome AS categoria,
-				produtos.preco,
-				produtos.descricao,
-				produtos.url_da_imagem
- 		FROM produtos
- 		JOIN categorias ON produtos.id_categoria = categorias.id 
+		`SELECT 
+			produtos.id,
+			produtos.nome,
+			produtos.estoque,
+			categorias.nome AS categoria,
+			clientes.nome as usuario,
+			produtos.preco,
+			produtos.descricao,
+			produtos.url_da_imagem
+		FROM 
+			produtos
+		JOIN 
+			categorias ON produtos.id_categoria = categorias.id
+		JOIN 
+			clientes ON produtos.id_usuario = clientes.id
  		ORDER BY produtos.preco ASC;`,
 		[],
 		(err, rows) => {
@@ -65,15 +112,21 @@ async function ordernarMenorPreco(req, res) {
 
 async function ordernarMaiorPreco(req, res) {
 	databaseInstance.db.all(
-		`SELECT produtos.id,
-				produtos.nome,
-				produtos.estoque,
-				categorias.nome AS categoria,
-				produtos.preco,
-				produtos.descricao,
-				produtos.url_da_imagem
- 		FROM produtos
- 		JOIN categorias ON produtos.id_categoria = categorias.id 
+		`SELECT 
+			produtos.id,
+			produtos.nome,
+			produtos.estoque,
+			categorias.nome AS categoria,
+			clientes.nome as usuario,
+			produtos.preco,
+			produtos.descricao,
+			produtos.url_da_imagem
+		FROM 
+			produtos
+		JOIN 
+			categorias ON produtos.id_categoria = categorias.id
+		JOIN 
+			clientes ON produtos.id_usuario = clientes.id
  		ORDER BY produtos.preco DESC;`,
 		[],
 		(err, rows) => {
@@ -173,5 +226,6 @@ module.exports = {
 	inserirProduto,
 	deleteById,
 	atualizar,
-	selectProdutoById
+	selectProdutoById,
+	selectMeusProdutos
 };
