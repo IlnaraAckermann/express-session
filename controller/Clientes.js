@@ -34,7 +34,7 @@ async function cadastrarCliente(req, res) {
 
 async function atualizarCliente(req, res) {
 	let registro = req.body;
-	console.log(registro);
+	if (req.session.usuario.id !== Number(registro.id) ) return res.status(401).send("Ação não autorizada.");
 	databaseInstance.db.run(
 		"UPDATE clientes SET nome=?, senha=?, email=?, endereco=? WHERE id=?",
 		[
@@ -58,6 +58,7 @@ async function atualizarCliente(req, res) {
 
 async function deleteClienteById(req, res) {
 	let id = req.body.id;
+	if (req.session.usuario.id !== Number(id) ) return res.status(401).send("Ação não autorizada.");
 	databaseInstance.db.get("DELETE FROM clientes WHERE id=?", [id], (err) => {
 		if (err) {
 			res.status(500).send("Erro ao deletar o cliente no banco de dados.");
