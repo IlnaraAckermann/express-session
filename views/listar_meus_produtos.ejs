@@ -10,7 +10,6 @@
 
 <body>
 
-
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Navbar</a>
@@ -61,33 +60,39 @@
         <div class="row justify-content-evenly my-3">
 
           <div class="card" style="width: 18rem;">
+            <img src="<%= item.url_da_imagem %>" class="card-img-top pt-3" alt="<%= item.nome %>">
             <div class="card-body">
               <h5 class="card-title">
                 <%= item.id %>: <%= item.nome %>
               </h5>
               <p class="card-text">
-                <%= item.endereco %>
+                <%= item.descricao %>
               </p>
             </div>
             <ul class="list-group list-group-flush">
-             
-              <li class="list-group-item">Email: <%= item.email %>
+            
+              <li class="list-group-item">Categoria: <%= item.categoria %>
+              </li>
+              <li class="list-group-item">Preco: R$ <%= item.preco %>
+              </li>
+              <li class="list-group-item">Estoque: <%= item.estoque %>
               </li>
               <li class="list-group-item">
-
-
-                <form action="/atualizar_cliente" method="get">
+                
+                <form action="/atualiza_produtos" method="get">
                   <input type="hidden" name="id" value="<%= item.id %>">
-                  <button type="submit" class="btn btn-primary mt-2">Editar</button>
+                  <button type="submit" class="btn btn-warning mt-2">Editar</button>
                 </form>
 
+              </li>
+
+
+
+              <li class="list-group-item">
 
                 <!-- Formulário para o botão de delete -->
-                <form action="/delete_cliente" method="post">
-                  <!-- Adicione um campo oculto para o ID do produto -->
+                <form action="/delete" method="post">
                   <input type="hidden" name="id" value="<%= item.id %>">
-
-                  <!-- Botão de delete -->
                   <button type="submit" class="btn btn-danger mt-2">Excluir</button>
                 </form>
 
