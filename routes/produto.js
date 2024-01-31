@@ -12,10 +12,12 @@ const {
     deleteById,
     atualizar,
     selectProdutoById,
+    selectMeusProdutos,
   } = require('../controller/Produto');
 
-router.get("/", (req, res)=>res.render('index'))
+router.get("/", selectProdutos)
 router.get("/listar", selectProdutos)
+router.get("/listar_meus_produtos",checkAuth, selectMeusProdutos)
 router.get("/estoque_min", selectProdutoEstoqueMin)
 router.get("/maior_preco", ordernarMaiorPreco)
 router.get("/menor_preco", ordernarMenorPreco)
